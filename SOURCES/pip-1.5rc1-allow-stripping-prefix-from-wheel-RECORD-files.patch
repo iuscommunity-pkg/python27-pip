@@ -82,16 +82,16 @@ diff --git a/pip/wheel.py b/pip/wheel.py
 index fa3e270..3a366d0 100644
 --- a/pip/wheel.py
 +++ b/pip/wheel.py
-@@ -136,7 +136,7 @@ def get_entrypoints(filename):
+@@ -134,7 +134,7 @@ def get_entrypoints(filename):
  
  
  def move_wheel_files(name, req, wheeldir, user=False, home=None, root=None,
--        pycompile=True):
-+        pycompile=True, strip_file_prefix=None):
+-                     pycompile=True, scheme=None):
++                     pycompile=True, scheme=None, strip_file_prefix=None):
      """Install a wheel"""
  
      scheme = distutils_scheme(name, user=user, home=home, root=root)
-@@ -357,6 +357,8 @@ if __name__ == '__main__':
+@@ -363,6 +363,8 @@ if __name__ == '__main__':
                  writer.writerow(row)
              for f in generated:
                  h, l = rehash(f)

@@ -67,6 +67,7 @@ find -name '*.py' -type f -print0 | xargs -0 sed -i '1s|python|&%{pyver}|'
 * Mon May 19 2014 Carl George <carl.george@rackspace.com> - 1.5.6-1.ius
 - Port from Fedora to IUS
 - Latest upstream
+- Update Patch0 for latest source
 - Implement python packaging best practices
 
 * Mon Apr 07 2014 Matej Stuchlik <mstuchli@redhat.com> - 1.5.4-1
