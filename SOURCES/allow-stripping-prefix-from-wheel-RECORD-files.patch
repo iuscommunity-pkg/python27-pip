@@ -1,14 +1,7 @@
-commit aefacbb76661520415a1c35028f2984e70cfe0bf
-Author: Slavek Kabrda <bkabrda@redhat.com>
-Date:   Fri Nov 29 13:24:58 2013 +0100
-
-    Allow stripping given prefix from wheel RECORD files
-
-diff --git a/pip/commands/install.py b/pip/commands/install.py
-index 1693d01..0287c06 100644
---- a/pip/commands/install.py
-+++ b/pip/commands/install.py
-@@ -137,6 +137,14 @@ class InstallCommand(Command):
+diff -Naur a/pip/commands/install.py b/pip/commands/install.py
+--- a/pip/commands/install.py	2014-05-16 21:19:02.000000000 -0500
++++ b/pip/commands/install.py	2014-05-20 07:55:47.993000000 -0500
+@@ -135,6 +135,14 @@
              help="Install everything relative to this alternate root directory.")
  
          cmd_opts.add_option(
@@ -23,7 +16,7 @@ index 1693d01..0287c06 100644
              "--compile",
              action="store_true",
              dest="compile",
-@@ -273,7 +281,11 @@ class InstallCommand(Command):
+@@ -280,7 +288,11 @@
                  requirement_set.locate_files()
  
              if not options.no_install and not self.bundle:
@@ -36,11 +29,10 @@ index 1693d01..0287c06 100644
                  installed = ' '.join([req.name for req in
                                        requirement_set.successfully_installed])
                  if installed:
-diff --git a/pip/req.py b/pip/req.py
-index 3ae306d..c171130 100644
---- a/pip/req.py
-+++ b/pip/req.py
-@@ -615,15 +615,19 @@ exec(compile(open(__file__).read().replace('\\r\\n', '\\n'), __file__, 'exec'))
+diff -Naur a/pip/req.py b/pip/req.py
+--- a/pip/req.py	2014-05-16 21:19:02.000000000 -0500
++++ b/pip/req.py	2014-05-20 07:58:56.459000000 -0500
+@@ -660,7 +660,7 @@
          name = name.replace(os.path.sep, '/')
          return name
  
@@ -49,7 +41,7 @@ index 3ae306d..c171130 100644
          if self.editable:
              self.install_editable(install_options, global_options)
              return
-         if self.is_wheel:
+@@ -668,7 +668,11 @@
              version = pip.wheel.wheel_version(self.source_dir)
              pip.wheel.check_compatibility(version, self.name)
  
@@ -62,7 +54,7 @@ index 3ae306d..c171130 100644
              self.install_succeeded = True
              return
  
-@@ -844,13 +848,14 @@ exec(compile(open(__file__).read().replace('\\r\\n', '\\n'), __file__, 'exec'))
+@@ -892,13 +896,14 @@
          self._bundle_build_dirs = bundle_build_dirs
          self._bundle_editable_dirs = bundle_editable_dirs
  
@@ -78,11 +70,10 @@ index 3ae306d..c171130 100644
          )
  
      @property
-diff --git a/pip/wheel.py b/pip/wheel.py
-index fa3e270..3a366d0 100644
---- a/pip/wheel.py
-+++ b/pip/wheel.py
-@@ -134,7 +134,7 @@ def get_entrypoints(filename):
+diff -Naur a/pip/wheel.py b/pip/wheel.py
+--- a/pip/wheel.py	2014-05-16 21:19:02.000000000 -0500
++++ b/pip/wheel.py	2014-05-20 08:00:00.515000000 -0500
+@@ -134,7 +134,7 @@
  
  
  def move_wheel_files(name, req, wheeldir, user=False, home=None, root=None,
@@ -90,8 +81,8 @@ index fa3e270..3a366d0 100644
 +                     pycompile=True, scheme=None, strip_file_prefix=None):
      """Install a wheel"""
  
-     scheme = distutils_scheme(name, user=user, home=home, root=root)
-@@ -363,6 +363,8 @@ if __name__ == '__main__':
+     if not scheme:
+@@ -363,6 +363,8 @@
                  writer.writerow(row)
              for f in generated:
                  h, l = rehash(f)
