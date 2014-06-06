@@ -5,12 +5,13 @@
 %global __python2 %{_bindir}/python%{pyver}
 %global python2_sitelib  %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%global __os_install_post %{__python27_os_install_post}
 %global srcname pip
 %global src %(echo %{srcname} | cut -c1)
 
 Name:           python%{iusver}-%{srcname}
 Version:        1.5.6
-Release:        1.ius%{?dist}
+Release:        2.ius%{?dist}
 Summary:        A tool for installing and managing Python %{pyver} packages
 Vendor:         IUS Community Project
 Group:          Development/Libraries
@@ -64,6 +65,9 @@ find -name '*.py' -type f -print0 | xargs -0 sed -i '1s|python|&%{pyver}|'
 
 
 %changelog
+* Fri Jun 06 2014 Carl George <carl.george@rackspace.com> - 1.5.6-2.ius
+- Override __os_install_post to fix .pyc/pyo magic
+
 * Mon May 19 2014 Carl George <carl.george@rackspace.com> - 1.5.6-1.ius
 - Port from Fedora to IUS
 - Latest upstream
