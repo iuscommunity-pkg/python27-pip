@@ -10,8 +10,8 @@
 %global src %(echo %{srcname} | cut -c1)
 
 Name:           python%{iusver}-%{srcname}
-Version:        1.5.6
-Release:        2.ius%{?dist}
+Version:        6.0.3
+Release:        1.ius%{?dist}
 Summary:        A tool for installing and managing Python %{pyver} packages
 Vendor:         IUS Community Project
 Group:          Development/Libraries
@@ -65,6 +65,10 @@ find -name '*.py' -type f -print0 | xargs -0 sed -i '1s|python|&%{pyver}|'
 
 
 %changelog
+* Fri Dec 26 2014 Carl George <carl.george@rackspace.com> - 6.0.3-1.ius
+- Latest upstream
+- Refresh patch0
+
 * Fri Jun 06 2014 Carl George <carl.george@rackspace.com> - 1.5.6-2.ius
 - Override __os_install_post to fix .pyc/pyo magic
 
