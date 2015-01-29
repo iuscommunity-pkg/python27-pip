@@ -13,13 +13,12 @@ Name:           python%{iusver}-%{srcname}
 Version:        6.0.6
 Release:        1.ius%{?dist}
 Summary:        A tool for installing and managing Python %{pyver} packages
-Vendor:         IUS Community Project
 Group:          Development/Libraries
 License:        MIT
 URL:            https://pip.pypa.io
 Source0:        https://pypi.python.org/packages/source/%{src}/%{srcname}/%{srcname}-%{version}.tar.gz
 Patch0:         allow-stripping-prefix-from-wheel-RECORD-files.patch
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+%{?el5:BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)}
 BuildArch:      noarch
 BuildRequires:  python%{iusver}-devel
 BuildRequires:  python%{iusver}-setuptools
@@ -44,21 +43,20 @@ find -name '*.py' -type f -print0 | xargs -0 sed -i '1s|python|&%{pyver}|'
 
 
 %install
-%{__rm} -rf %{buildroot}
+%{?el5:%{__rm} -rf %{buildroot}}
 %{__python2} setup.py install --optimize 1 --skip-build --root %{buildroot}
 # we are keeping pip2.7, but delete the other ones to avoid conflicts
 %{__rm} -f %{buildroot}%{_bindir}/pip
 %{__rm} -f %{buildroot}%{_bindir}/pip2
 
 
-%clean
-%{__rm} -rf %{buildroot}
+%{?el5:%clean}
+%{?el5:%{__rm} -rf %{buildroot}}
 
 # unfortunately, pip's test suite requires virtualenv >= 1.6 which isn't in
 # fedora yet. Once it is, check can be implemented
 
 %files
-%defattr(-,root,root,-)
 %doc LICENSE.txt README.rst docs
 %{_bindir}/pip2.7
 %{python2_sitelib}/pip*
