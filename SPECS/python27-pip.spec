@@ -45,21 +45,19 @@ find -name '*.py' -type f -print0 | xargs -0 sed -i '1s|python|&%{pyver}|'
 %install
 %{?el5:%{__rm} -rf %{buildroot}}
 %{__python2} setup.py install --optimize 1 --skip-build --root %{buildroot}
-# we are keeping pip2.7, but delete the other ones to avoid conflicts
-%{__rm} -f %{buildroot}%{_bindir}/pip
-%{__rm} -f %{buildroot}%{_bindir}/pip2
+# delete pip and pip2
+%{__rm} -f %{buildroot}%{_bindir}/%{srcname}
+%{__rm} -f %{buildroot}%{_bindir}/%{srcname}%{pymajor}
 
 
 %{?el5:%clean}
 %{?el5:%{__rm} -rf %{buildroot}}
 
-# unfortunately, pip's test suite requires virtualenv >= 1.6 which isn't in
-# fedora yet. Once it is, check can be implemented
 
 %files
 %doc LICENSE.txt README.rst docs
-%{_bindir}/pip2.7
-%{python2_sitelib}/pip*
+%{_bindir}/%{srcname}%{pyver}
+%{python2_sitelib}/%{srcname}*
 
 
 %changelog
