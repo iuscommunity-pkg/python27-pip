@@ -8,6 +8,12 @@
 %global __os_install_post %{__python27_os_install_post}
 %global srcname pip
 %global src %(echo %{srcname} | cut -c1)
+%global build_wheel 1
+
+%if 0%{?build_wheel}
+%global python2_wheelname %{srcname}-%{version}-py2.py3-none-any.whl
+%endif
+
 
 Name:           python%{iusver}-%{srcname}
 Version:        6.0.6
@@ -22,6 +28,10 @@ Patch0:         allow-stripping-prefix-from-wheel-RECORD-files.patch
 BuildArch:      noarch
 BuildRequires:  python%{iusver}-devel
 BuildRequires:  python%{iusver}-setuptools
+%if 0%{?build_wheel}
+BuildRequires:  python%{iusver}-pip
+BuildRequires:  python%{iusver}-wheel
+%endif
 Requires:       python%{iusver}-setuptools
 
 
@@ -39,12 +49,24 @@ find -name '*.py' -type f -print0 | xargs -0 sed -i '1s|python|&%{pyver}|'
 
 
 %build
+%if 0%{?build_wheel}
+%{__python2} setup.py bdist_wheel
+%else
 %{__python2} setup.py build
+%endif
 
 
 %install
 %{?el5:%{__rm} -rf %{buildroot}}
+
+%if 0%{?build_wheel}
+pip%{pyver} install \
+    --root %{buildroot} \
+    --ignore-installed dist/%{python2_wheelname} \
+    --strip-file-prefix %{buildroot}
+%else
 %{__python2} setup.py install --optimize 1 --skip-build --root %{buildroot}
+%endif
 # delete pip and pip2
 %{__rm} -f %{buildroot}%{_bindir}/%{srcname}
 %{__rm} -f %{buildroot}%{_bindir}/%{srcname}%{pymajor}
