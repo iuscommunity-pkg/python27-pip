@@ -65,7 +65,10 @@ pip%{pyver} install \
     --ignore-installed dist/%{python2_wheelname} \
     --strip-file-prefix %{buildroot}
 %else
-%{__python2} setup.py install --optimize 1 --skip-build --root %{buildroot}
+%{__python2} setup.py install \
+    --root %{buildroot} \
+    --optimize 1 \
+    --skip-build
 %endif
 # delete pip and pip2
 %{__rm} -f %{buildroot}%{_bindir}/%{srcname}
