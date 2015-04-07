@@ -88,6 +88,7 @@ pip%{pyver} install \
 %changelog
 * Tue Apr 07 2015 Carl George <carl.george@rackspace.com> - 6.1.1-1.ius
 - Latest upstream
+- Refresh patch0
 
 * Thu Feb 05 2015 Ben Harper <ben.harper@rackspace.com> - 6.0.8-1.ius
 - Latest sources from upstream

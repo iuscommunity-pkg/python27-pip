@@ -1,7 +1,7 @@
 diff -Naurp a/pip/commands/install.py b/pip/commands/install.py
---- a/pip/commands/install.py	2014-12-23 19:15:26.000000000 -0600
-+++ b/pip/commands/install.py	2014-12-26 07:51:34.678088349 -0600
-@@ -144,6 +144,14 @@ class InstallCommand(Command):
+--- a/pip/commands/install.py	2015-04-07 05:37:04.000000000 -0500
++++ b/pip/commands/install.py	2015-04-07 09:50:34.760817764 -0500
+@@ -147,6 +147,14 @@ class InstallCommand(Command):
                   "directory.")
  
          cmd_opts.add_option(
@@ -16,7 +16,7 @@ diff -Naurp a/pip/commands/install.py b/pip/commands/install.py
              "--compile",
              action="store_true",
              dest="compile",
-@@ -345,6 +353,7 @@ class InstallCommand(Command):
+@@ -350,6 +358,7 @@ class InstallCommand(Command):
                              install_options,
                              global_options,
                              root=options.root_path,
@@ -25,9 +25,9 @@ diff -Naurp a/pip/commands/install.py b/pip/commands/install.py
                          reqs = sorted(
                              requirement_set.successfully_installed,
 diff -Naurp a/pip/req/req_install.py b/pip/req/req_install.py
---- a/pip/req/req_install.py	2014-12-23 19:15:26.000000000 -0600
-+++ b/pip/req/req_install.py	2014-12-26 07:50:08.543382502 -0600
-@@ -740,7 +740,7 @@ exec(compile(
+--- a/pip/req/req_install.py	2015-04-07 05:37:04.000000000 -0500
++++ b/pip/req/req_install.py	2015-04-07 09:50:34.764817674 -0500
+@@ -806,7 +806,7 @@ exec(compile(
          else:
              return True
  
@@ -36,7 +36,7 @@ diff -Naurp a/pip/req/req_install.py b/pip/req/req_install.py
          if self.editable:
              self.install_editable(install_options, global_options)
              return
-@@ -748,7 +748,12 @@ exec(compile(
+@@ -814,7 +814,12 @@ exec(compile(
              version = pip.wheel.wheel_version(self.source_dir)
              pip.wheel.check_compatibility(version, self.name)
  
@@ -50,16 +50,16 @@ diff -Naurp a/pip/req/req_install.py b/pip/req/req_install.py
              self.install_succeeded = True
              return
  
-@@ -950,7 +955,7 @@ exec(compile(
+@@ -1008,7 +1013,7 @@ exec(compile(
      def is_wheel(self):
-         return self.url and '.whl' in self.url
+         return self.link and self.link.is_wheel
  
 -    def move_wheel_files(self, wheeldir, root=None):
 +    def move_wheel_files(self, wheeldir, root=None, strip_file_prefix=None):
          move_wheel_files(
              self.name, self.req, wheeldir,
              user=self.use_user_site,
-@@ -958,6 +963,7 @@ exec(compile(
+@@ -1016,6 +1021,7 @@ exec(compile(
              root=root,
              pycompile=self.pycompile,
              isolated=self.isolated,
@@ -68,9 +68,9 @@ diff -Naurp a/pip/req/req_install.py b/pip/req/req_install.py
  
      def get_dist(self):
 diff -Naurp a/pip/wheel.py b/pip/wheel.py
---- a/pip/wheel.py	2014-12-23 19:15:26.000000000 -0600
-+++ b/pip/wheel.py	2014-12-26 07:55:20.364711277 -0600
-@@ -129,7 +129,8 @@ def get_entrypoints(filename):
+--- a/pip/wheel.py	2015-04-07 05:37:04.000000000 -0500
++++ b/pip/wheel.py	2015-04-07 09:50:34.766817629 -0500
+@@ -130,7 +130,8 @@ def get_entrypoints(filename):
  
  
  def move_wheel_files(name, req, wheeldir, user=False, home=None, root=None,
@@ -80,7 +80,7 @@ diff -Naurp a/pip/wheel.py b/pip/wheel.py
      """Install a wheel"""
  
      if not scheme:
-@@ -394,6 +395,8 @@ if __name__ == '__main__':
+@@ -397,6 +398,8 @@ if __name__ == '__main__':
                  writer.writerow(row)
              for f in generated:
                  h, l = rehash(f)
