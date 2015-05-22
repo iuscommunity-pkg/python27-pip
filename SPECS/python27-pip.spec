@@ -16,7 +16,7 @@
 
 
 Name:           python%{iusver}-%{srcname}
-Version:        6.1.1
+Version:        7.0.0
 Release:        1.ius%{?dist}
 Summary:        A tool for installing and managing Python %{pyver} packages
 Group:          Development/Libraries
@@ -86,6 +86,10 @@ pip%{pyver} install \
 
 
 %changelog
+* Fri May 22 2015 Carl George <carl.george@rackspace.com> - 7.0.0-1.ius
+- Latest upstream
+- Refresh patch0
+
 * Tue Apr 07 2015 Carl George <carl.george@rackspace.com> - 6.1.1-1.ius
 - Latest upstream
 - Refresh patch0
