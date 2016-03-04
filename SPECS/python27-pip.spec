@@ -66,7 +66,7 @@ find -name '*.py' -type f -print0 | xargs -0 sed -i '1s|python|&%{pyver}|'
 
 
 %changelog
-* Fri Mar 04 2016 Ben Harper <ben.harper@rackspace.com> - 8.0.2-1.ius
+* Fri Mar 04 2016 Ben Harper <ben.harper@rackspace.com> - 8.0.3-1.ius
 - Latest upstream
 - Remove with_rewheel macro
 
