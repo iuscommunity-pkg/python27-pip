@@ -10,13 +10,9 @@
 %global src %(echo %{srcname} | cut -c1)
 %global build_wheel 1
 
-%if 0%{?build_wheel}
-%global python2_wheelname %{srcname}-%{version}-py2.py3-none-any.whl
-%endif
-
 
 Name:           python%{iusver}-%{srcname}
-Version:        8.0.2
+Version:        8.0.3
 Release:        1.ius%{?dist}
 Summary:        A tool for installing and managing Python %{pyver} packages
 Group:          Development/Libraries
@@ -28,10 +24,6 @@ Patch0:         allow-stripping-prefix-from-wheel-RECORD-files.patch
 BuildArch:      noarch
 BuildRequires:  python%{iusver}-devel
 BuildRequires:  python%{iusver}-setuptools
-%if 0%{?build_wheel}
-BuildRequires:  python%{iusver}-pip
-BuildRequires:  python%{iusver}-wheel
-%endif
 Requires:       python%{iusver}-setuptools
 
 
@@ -44,32 +36,20 @@ easy_installable should be pip-installable as well.
 
 %prep
 %setup -q -n %{srcname}-%{version}
-%patch0 -p1
 find -name '*.py' -type f -print0 | xargs -0 sed -i '1s|python|&%{pyver}|'
 
 
 %build
-%if 0%{?build_wheel}
-%{__python2} setup.py bdist_wheel
-%else
 %{__python2} setup.py build
-%endif
 
 
 %install
 %{?el5:%{__rm} -rf %{buildroot}}
 
-%if 0%{?build_wheel}
-pip%{pyver} install \
-    --root %{buildroot} \
-    --ignore-installed dist/%{python2_wheelname} \
-    --strip-file-prefix %{buildroot}
-%else
 %{__python2} setup.py install \
     --root %{buildroot} \
     --optimize 1 \
     --skip-build
-%endif
 # delete pip and pip2
 %{__rm} -f %{buildroot}%{_bindir}/%{srcname}
 %{__rm} -f %{buildroot}%{_bindir}/%{srcname}%{pymajor}
@@ -86,6 +66,10 @@ pip%{pyver} install \
 
 
 %changelog
+* Fri Mar 04 2016 Ben Harper <ben.harper@rackspace.com> - 8.0.2-1.ius
+- Latest upstream
+- Remove with_rewheel macro
+
 * Fri Jan 22 2016 Ben Harper <ben.harper@rackspace.com> - 8.0.2-1.ius
 - Latest upstream
 
