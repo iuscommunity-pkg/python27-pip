@@ -4,11 +4,9 @@
 %global iusver %{pymajor}%{pyminor}
 %global __python2 %{_bindir}/python%{pyver}
 %global python2_sitelib  %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %global __os_install_post %{__python27_os_install_post}
 %global srcname pip
 %global src %(echo %{srcname} | cut -c1)
-%global build_wheel 1
 
 
 Name:           python%{iusver}-%{srcname}
@@ -19,7 +17,6 @@ Group:          Development/Libraries
 License:        MIT
 URL:            https://pip.pypa.io
 Source0:        https://pypi.python.org/packages/source/%{src}/%{srcname}/%{srcname}-%{version}.tar.gz
-Patch0:         allow-stripping-prefix-from-wheel-RECORD-files.patch
 %{?el5:BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)}
 BuildArch:      noarch
 BuildRequires:  python%{iusver}-devel
