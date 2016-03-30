@@ -12,7 +12,7 @@
 
 
 Name:           python%{iusver}-%{srcname}
-Version:        8.0.3
+Version:        8.1.0
 Release:        1.ius%{?dist}
 Summary:        A tool for installing and managing Python %{pyver} packages
 Group:          Development/Libraries
@@ -66,6 +66,9 @@ find -name '*.py' -type f -print0 | xargs -0 sed -i '1s|python|&%{pyver}|'
 
 
 %changelog
+* Wed Mar 30 2016 Carl George <carl.george@rackspace.com> - 8.1.0-1.ius
+- Upstream 8.1.0
+
 * Fri Mar 04 2016 Ben Harper <ben.harper@rackspace.com> - 8.0.3-1.ius
 - Latest upstream
 - Remove with_rewheel macro
