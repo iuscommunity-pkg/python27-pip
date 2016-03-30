@@ -1,27 +1,24 @@
-%global pymajor 2
-%global pyminor 7
-%global pyver %{pymajor}.%{pyminor}
-%global iusver %{pymajor}%{pyminor}
-%global __python2 %{_bindir}/python%{pyver}
+%global ius_suffix 27
+%global __python2 %{_bindir}/python2.7
 %global python2_sitelib  %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python2_version  %(%{__python2} -c "import sys; sys.stdout.write(sys.version[:3])")
 %global __os_install_post %{__python27_os_install_post}
 %global srcname pip
-%global src %(echo %{srcname} | cut -c1)
 
 
-Name:           python%{iusver}-%{srcname}
+Name:           python%{ius_suffix}-%{srcname}
 Version:        8.1.0
 Release:        1.ius%{?dist}
-Summary:        A tool for installing and managing Python %{pyver} packages
+Summary:        A tool for installing and managing Python %{python2_version} packages
 Group:          Development/Libraries
 License:        MIT
 URL:            https://pip.pypa.io
-Source0:        https://pypi.python.org/packages/source/%{src}/%{srcname}/%{srcname}-%{version}.tar.gz
+Source0:        https://pypi.python.org/packages/source/p/pip/pip-%{version}.tar.gz
 %{?el5:BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)}
 BuildArch:      noarch
-BuildRequires:  python%{iusver}-devel
-BuildRequires:  python%{iusver}-setuptools
-Requires:       python%{iusver}-setuptools
+BuildRequires:  python%{ius_suffix}-devel
+BuildRequires:  python%{ius_suffix}-setuptools
+Requires:       python%{ius_suffix}-setuptools
 
 
 %description
@@ -49,7 +46,7 @@ find %{srcname} -type f -name \*.py -print0 | xargs -0 sed -i -e '1 {/^#!\//d}'
     --skip-build
 # delete pip and pip2
 %{__rm} -f %{buildroot}%{_bindir}/%{srcname}
-%{__rm} -f %{buildroot}%{_bindir}/%{srcname}%{pymajor}
+%{__rm} -f %{buildroot}%{_bindir}/%{srcname}2
 
 
 %{?el5:%clean}
@@ -58,7 +55,7 @@ find %{srcname} -type f -name \*.py -print0 | xargs -0 sed -i -e '1 {/^#!\//d}'
 
 %files
 %doc LICENSE.txt README.rst docs
-%{_bindir}/%{srcname}%{pyver}
+%{_bindir}/%{srcname}%{python2_version}
 %{python2_sitelib}/%{srcname}*
 
 
