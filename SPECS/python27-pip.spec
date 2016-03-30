@@ -4,6 +4,7 @@
 %global python2_version  %(%{__python2} -c "import sys; sys.stdout.write(sys.version[:3])")
 %global __os_install_post %{__python27_os_install_post}
 %global srcname pip
+%global bashcompdir %{_sysconfdir}/bash_completion.d
 
 
 Name:           python%{ius_suffix}-%{srcname}
@@ -49,6 +50,14 @@ find %{srcname} -type f -name \*.py -print0 | xargs -0 sed -i -e '1 {/^#!\//d}'
 %{__rm} -f %{buildroot}%{_bindir}/%{srcname}2
 
 
+mkdir -p %{buildroot}%{bashcompdir}
+PYTHONPATH=%{buildroot}%{python2_sitelib} \
+    %{buildroot}%{_bindir}/pip%{python2_version} completion --bash \
+    > %{buildroot}%{bashcompdir}/pip%{python2_version}
+sed -i -e "s/^\\(complete.*\\) pip\$/\\1 pip%{python2_version}/" \
+    %{buildroot}%{bashcompdir}/pip%{python2_version}
+
+
 %{?el5:%clean}
 %{?el5:%{__rm} -rf %{buildroot}}
 
@@ -57,12 +66,14 @@ find %{srcname} -type f -name \*.py -print0 | xargs -0 sed -i -e '1 {/^#!\//d}'
 %doc LICENSE.txt README.rst docs
 %{_bindir}/%{srcname}%{python2_version}
 %{python2_sitelib}/%{srcname}*
+%{bashcompdir}
 
 
 %changelog
 * Wed Mar 30 2016 Carl George <carl.george@rackspace.com> - 8.1.0-1.ius
 - Upstream 8.1.0
 - Strip all shebangs
+- Install bash completion
 
 * Fri Mar 04 2016 Ben Harper <ben.harper@rackspace.com> - 8.0.3-1.ius
 - Latest upstream
