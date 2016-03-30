@@ -36,7 +36,7 @@ easy_installable should be pip-installable as well.
 
 %prep
 %setup -q -n %{srcname}-%{version}
-find -name '*.py' -type f -print0 | xargs -0 sed -i '1s|python|&%{pyver}|'
+find %{srcname} -type f -name \*.py -print0 | xargs -0 sed -i -e '1 {/^#!\//d}'
 
 
 %build
@@ -68,6 +68,7 @@ find -name '*.py' -type f -print0 | xargs -0 sed -i '1s|python|&%{pyver}|'
 %changelog
 * Wed Mar 30 2016 Carl George <carl.george@rackspace.com> - 8.1.0-1.ius
 - Upstream 8.1.0
+- Strip all shebangs
 
 * Fri Mar 04 2016 Ben Harper <ben.harper@rackspace.com> - 8.0.3-1.ius
 - Latest upstream
