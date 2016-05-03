@@ -8,13 +8,13 @@
 
 
 Name:           python%{ius_suffix}-%{srcname}
-Version:        8.1.0
+Version:        8.1.1
 Release:        1.ius%{?dist}
 Summary:        A tool for installing and managing Python %{python2_version} packages
 Group:          Development/Libraries
 License:        MIT
 URL:            https://pip.pypa.io
-Source0:        https://pypi.python.org/packages/source/p/pip/pip-%{version}.tar.gz
+Source0:        https://pypi.io/packages/source/p/pip/pip-%{version}.tar.gz
 %{?el5:BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)}
 BuildArch:      noarch
 BuildRequires:  python%{ius_suffix}-devel
@@ -70,6 +70,11 @@ sed -i -e "s/^\\(complete.*\\) pip\$/\\1 pip%{python2_version}/" \
 
 
 %changelog
+* Tue May 03 2016 Ben Harper <ben.harper@rackspace.com> - 8.1.1-1.ius
+- Upstream 8.1.1
+- update Source0 url to pypi.io see
+  https://bitbucket.org/pypa/pypi/issues/438/backwards-compatible-un-hashed-package
+
 * Wed Mar 30 2016 Carl George <carl.george@rackspace.com> - 8.1.0-1.ius
 - Upstream 8.1.0
 - Strip all shebangs
