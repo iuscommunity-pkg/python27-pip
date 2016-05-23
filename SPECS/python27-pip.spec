@@ -8,7 +8,7 @@
 
 
 Name:           python%{ius_suffix}-%{srcname}
-Version:        8.1.1
+Version:        8.1.2
 Release:        1.ius%{?dist}
 Summary:        A tool for installing and managing Python %{python2_version} packages
 Group:          Development/Libraries
@@ -70,6 +70,9 @@ sed -i -e "s/^\\(complete.*\\) pip\$/\\1 pip%{python2_version}/" \
 
 
 %changelog
+* Mon May 23 2016 Carl George <carl.george@rackspace.com> - 8.1.2-1.ius
+- Latest upstream
+
 * Tue May 03 2016 Ben Harper <ben.harper@rackspace.com> - 8.1.1-1.ius
 - Upstream 8.1.1
 - update Source0 url to pypi.io see
